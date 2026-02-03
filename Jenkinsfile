@@ -17,14 +17,14 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building the application...'
-                sh "${tool 'Maven 3.9'}/bin/mvn clean compile"
+                sh 'mvn clean compile'
             }
         }
 
         stage('Unit Test') {
             steps {
                 echo 'Running unit tests...'
-                sh "${tool 'Maven 3.9'}/bin/mvn test"
+                sh 'mvn test'
             }
             post {
                 always {
@@ -36,7 +36,7 @@ pipeline {
         stage('Package') {
             steps {
                 echo 'Packaging the application...'
-                sh "${tool 'Maven 3.9'}/bin/mvn package -DskipTests"
+                sh 'mvn package -DskipTests'
             }
         }
     }
