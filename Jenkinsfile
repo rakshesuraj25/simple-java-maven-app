@@ -2,15 +2,14 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven 3.9'
         jdk 'JDK 17'
+        maven 'Maven 3.9'
     }
 
     stages {
 
         stage('Checkout') {
             steps {
-                echo 'Checking out source code...'
                 checkout scm
             }
         }
@@ -18,14 +17,14 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building the application...'
-                sh 'mvn clean compile'
+                sh "${tool 'Maven 3.9'}/bin/mvn clean compile"
             }
         }
 
         stage('Unit Test') {
             steps {
                 echo 'Running unit tests...'
-                sh 'mvn test'
+                sh "${tool 'Maven 3.9'}/bin/mvn test"
             }
             post {
                 always {
@@ -37,12 +36,7 @@ pipeline {
         stage('Package') {
             steps {
                 echo 'Packaging the application...'
-                sh 'mvn package -DskipTests'
-            }
-            post {
-                success {
-                    archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
-                }
+                sh "${tool 'Maven 3.9'}/bin/mvn package -DskipTests"
             }
         }
     }
